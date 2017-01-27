@@ -67,6 +67,30 @@ export function getSibling(key) {
   });
 }
 
+export function getPrevSibling() {
+  return this.getSibling(this.key - 1);
+}
+
+export function getNextSibling() {
+  return this.getSibling(this.key + 1);
+}
+
+export function forEachNextSibling(callback = Function.prototype) {
+  let _key = this.key, nextSibling = this.getSibling(++_key);
+  while (nextSibling.node) {
+    callback(nextSibling);
+    nextSibling = this.getSibling(++_key);
+  }
+}
+
+export function forEachPrevSibling(callback = Function.prototype) {
+  let _key = this.key, nextSibling = this.getSibling(--_key);
+  while (nextSibling.node) {
+    callback(nextSibling);
+    nextSibling = this.getSibling(--_key);
+  }
+}
+
 export function get(key: string, context?: boolean | TraversalContext): NodePath {
   if (context === true) context = this.context;
   const parts = key.split(".");

@@ -52,6 +52,30 @@ describe("path/family", function () {
         assert.strictEqual(outerNodes[id], outerPaths[id].node, "nodes match");
       });
     });
+
+  });
+  describe("getSibling", function () {
+    const ast = parse("var a = 1, {b} = c, [d] = e; function f() {}");
+    let sibling = {};
+    traverse(ast, {
+      VariableDeclaration(path) {
+        sibling = path.getSibling(path.key);
+      }
+    });
+    it("should return traverse sibling nodes", function () {
+      assert.strictEqual(!!sibling.getNextSibling().node, true, "has property node");
+      assert.strictEqual(!!sibling.getNextSibling().getPrevSibling().node, true, "has property node");
+      let nextSiblings = 0, prevSiblings = 0;
+      sibling.forEachNextSibling(() => {
+        nextSiblings++;
+      });
+      assert.strictEqual(!!nextSiblings, true, "Has next sibling");
+
+      sibling.getNextSibling().forEachPrevSibling(() => {
+        prevSiblings++;
+      });
+      assert.strictEqual(!!prevSiblings, true, "Has prev sibling");
+    });
   });
 });
 
