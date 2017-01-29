@@ -75,21 +75,30 @@ export function getNextSibling() {
   return this.getSibling(this.key + 1);
 }
 
-export function forEachNextSibling(callback = Function.prototype) {
-  let _key = this.key, nextSibling = this.getSibling(++_key);
-  while (nextSibling.node) {
-    callback(nextSibling);
-    nextSibling = this.getSibling(++_key);
+export function getAllNextSibling(callback, thisArg = this) {
+  let _key = this.key;
+  let sibling = this.getSibling(++_key);
+  let siblings = [];
+  const hasCallback = callback && typeof callback === "function";
+  while (sibling.node) {
+    siblings = siblings.concat(hasCallback ? callback.call(thisArg, sibling) : sibling);
+    sibling = this.getSibling(++_key);
   }
+  return siblings;
 }
 
-export function forEachPrevSibling(callback = Function.prototype) {
-  let _key = this.key, nextSibling = this.getSibling(--_key);
-  while (nextSibling.node) {
-    callback(nextSibling);
-    nextSibling = this.getSibling(--_key);
+export function getAllPrevSibling(callback, thisArg = this) {
+  let _key = this.key;
+  let sibling = this.getSibling(--_key);
+  let siblings = [];
+  const hasCallback = callback && typeof callback === "function";
+  while (sibling.node) {
+    siblings = siblings.concat(hasCallback ? callback.call(thisArg, sibling) : sibling);
+    sibling = this.getSibling(--_key);
   }
+  return siblings;
 }
+
 
 export function get(key: string, context?: boolean | TraversalContext): NodePath {
   if (context === true) context = this.context;

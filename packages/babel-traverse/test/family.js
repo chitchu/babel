@@ -62,18 +62,23 @@ describe("path/family", function () {
         sibling = path.getSibling(path.key);
       }
     });
+
     it("should return traverse sibling nodes", function () {
       assert.strictEqual(!!sibling.getNextSibling().node, true, "has property node");
       assert.strictEqual(!!sibling.getNextSibling().getPrevSibling().node, true, "has property node");
+      assert.strictEqual(!!sibling.getPrevSibling().node, false, "out of scope");
+      assert.strictEqual(!!sibling.getNextSibling().getNextSibling().node, false, "out of scope");
+    });
+
+    it("should return all preceding and succeeding sibling nodes", function () {
+      assert.strictEqual(sibling.getAllNextSibling().length, 1, "Has next sibling");
+      assert.strictEqual(sibling.getNextSibling().getAllPrevSibling().length, 1, "Has prev sibling");
+
       let nextSiblings = 0, prevSiblings = 0;
-      sibling.forEachNextSibling(() => {
-        nextSiblings++;
-      });
+      sibling.getAllNextSibling(() => nextSiblings++);
       assert.strictEqual(!!nextSiblings, true, "Has next sibling");
 
-      sibling.getNextSibling().forEachPrevSibling(() => {
-        prevSiblings++;
-      });
+      sibling.getNextSibling().getAllPrevSibling(() => prevSiblings++);
       assert.strictEqual(!!prevSiblings, true, "Has prev sibling");
     });
   });
