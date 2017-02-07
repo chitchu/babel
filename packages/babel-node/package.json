@@ -1,0 +1,36 @@
+{
+  "name": "babel-node",
+  "version": "6.22.2",
+  "description": "Babel command line.",
+  "author": "Sebastian McKenzie <sebmck@gmail.com>",
+  "homepage": "https://babeljs.io/",
+  "license": "MIT",
+  "repository": "https://github.com/babel/babel/tree/master/packages/babel-node",
+  "keywords": [
+    "6to5",
+    "babel",
+    "es6",
+    "transpile",
+    "transpiler",
+    "babel-cli",
+    "compiler"
+  ],
+  "dependencies": {
+    "babel-core": "^6.22.1",
+    "babel-polyfill": "^6.22.0",
+    "babel-runtime": "^6.22.0",
+    "commander": "^2.8.1",
+    "fs-readdir-recursive": "^1.0.0",
+    "path-is-absolute": "^1.0.0",
+    "v8flags": "^2.0.10"
+  },
+  "optionalDependencies": {
+    "chokidar": "^1.6.1"
+  },
+  "devDependencies": {
+    "babel-helper-fixtures": "^6.22.0"
+  },
+  "bin": {
+    "babel-node": "./bin/babel-node.js"
+  }
+}
